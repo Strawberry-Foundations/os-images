@@ -30,10 +30,11 @@ jobs:
         cd /workdir
         sudo wget https://raw.githubusercontent.com/Strawberry-Foundations/os-images/main/base.yml
         sudo ./simu base.yml
+        sudo chown runner Dockerfile
         sudo chmod a+rwx Dockerfile
 
     - name: Build the Docker image
-      run: docker image build --tag ghcr.io/strawberry-foundations/os-base:latest .
+      run: docker image build -f /workdir/Dockerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
 
     - name: Create SHA256SUMS
       run: |
