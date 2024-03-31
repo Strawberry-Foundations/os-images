@@ -33,7 +33,7 @@ jobs:
         sudo chmod a+rwx Dockerfile
 
     - name: Build the Docker image
-      run: docker image build -f . --tag ghcr.io/strawberry-foundations/os-base:latest .
+      run: docker image build --tag ghcr.io/strawberry-foundations/os-base:latest .
 
     - name: Create SHA256SUMS
       run: |
