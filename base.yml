@@ -10,9 +10,8 @@ pre-init:
     - export DEBIAN_FRONTEND=noninteractive
     - DEBIAN_FRONTEND=noninteractive
     - apt install debootstrap bubblewrap
-    - DEBIAN_FRONTEND=noninteractive ./os-bootstrap install -t rootfs
-    - cd rootfs
-    - tar -cf ../rootfs.tar .
+    - DEBIAN_FRONTEND=noninteractive ./os-bootstrap install -t rootfs utils
+    - tar -cvf rootfs.tar -C rootfs/ .
 
 init:
   base: scratch
