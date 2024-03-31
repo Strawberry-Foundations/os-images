@@ -34,7 +34,7 @@ jobs:
         sudo mv /rootfs.tar /workdir/rootfs.tar
 
     - name: Build the Docker image
-      run: cd && docker image build -f /workdir/Dockerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
+      run: docker image build -f /workdir/Dockerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
 
     - name: Create SHA256SUMS
       run: |
