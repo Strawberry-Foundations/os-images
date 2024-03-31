@@ -32,7 +32,7 @@ jobs:
         sudo ./simu base.yml
 
     - name: Build the Docker image
-      run: docker image build -f Dockerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
+      run: cd && docker image build -f Dockerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
 
     - name: Create SHA256SUMS
       run: |
