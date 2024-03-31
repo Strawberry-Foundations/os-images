@@ -30,8 +30,7 @@ jobs:
         cd /workdir
         sudo wget https://raw.githubusercontent.com/Strawberry-Foundations/os-images/main/base.yml
         sudo ./simu base.yml
-        cd /workdir
-        sudo mv /rootfs.tar /workdir/rootfs.tar
+        sudo chmod a+rwx Dockerfile
 
     - name: Build the Docker image
       run: docker image build -f . --tag ghcr.io/strawberry-foundations/os-base:latest .
