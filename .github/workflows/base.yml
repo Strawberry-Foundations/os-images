@@ -1,0 +1,51 @@
+name: StrawberryOS Base Image
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+    REGISTRY_USER: ${{ github.actor }}
+    REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt install -y debootstrap podman wget
+
+    - name: Install simu
+      run: |
+        wget https://github.com/Strawberry-Foundations/simu/raw/main/simu
+        chmod a+x simu
+
+    - name: Build rootfs
+      run: |
+        simu base.yml
+
+    - name: Build the Docker image
+      run: docker image build -f Containerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
+
+    - name: Create SHA256SUMS
+      run: |
+        sha256sum rootfs.tar > SHA256SUMS
+        cd ..
+
+    # Push the image to GHCR (Image Registry)
+    - name: Push To GHCR
+      run: |
+         docker login ghcr.io -u ${{ env.REGISTRY_USER }} -p ${{ env.REGISTRY_PASSWORD }}
+         docker image push "ghcr.io/strawberry-foundations/os-base:latest"
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: rootfs
+        path: rootfs.tar
