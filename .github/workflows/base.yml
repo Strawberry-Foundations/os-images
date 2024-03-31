@@ -21,9 +21,9 @@ jobs:
 
     - name: Install simu
       run: |
-        mkdir /workdir
-        wget https://github.com/Strawberry-Foundations/simu/raw/main/simu -O /workdir/simu
-        chmod a+x /workdir/simu
+        sudo mkdir /workdir
+        sudo wget https://github.com/Strawberry-Foundations/simu/raw/main/simu -O /workdir/simu
+        sudo chmod a+x /workdir/simu
 
     - name: Build rootfs
       run: |
