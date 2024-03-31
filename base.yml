@@ -9,8 +9,10 @@ pre-init:
     - mkdir rootfs
     - export DEBIAN_FRONTEND=noninteractive
     - DEBIAN_FRONTEND=noninteractive
-    - apt install debootstrap bubblewrap
+    - apt install debootstrap bubblewrap wget
     - DEBIAN_FRONTEND=noninteractive ./os-bootstrap install -t rootfs utils
+    - wget https://raw.githubusercontent.com/Strawberry-Foundations/sbos-scripts/main/neofetch -O /workdir/rootfs/usr/bin/neofetch
+    - chmod a+x /workdir/rootfs/usr/bin/neofetch
     - tar -cvf rootfs.tar -C rootfs/ .
 
 init:
@@ -18,8 +20,3 @@ init:
   files:
     - source: rootfs.tar
       destination: /
-
-post-init:
-  commands:
-    - wget https://raw.githubusercontent.com/Strawberry-Foundations/sbos-scripts/main/neofetch -O /usr/bin/neofetch
-    - chmod a+x /usr/bin/neofetch
