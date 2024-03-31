@@ -38,8 +38,10 @@ jobs:
 
     - name: Create SHA256SUMS
       run: |
-        sha256sum rootfs.tar > SHA256SUMS
-        cd ..
+        sudo mkdir /upload
+        sudo mv /workdir/rootfs.tar /upload/rootfs.tar
+        sudo sha256sum /upload/rootfs.tar > /upload/SHA256SUMS
+        cd /workdir/
 
     # Push the image to GHCR (Image Registry)
     - name: Push To GHCR
@@ -50,4 +52,4 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: rootfs
-        path: cd /workdir/rootfs.tar
+        path: /upload
