@@ -12,27 +12,28 @@ env:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-
     - name: Install dependencies
       run: |
-        sudo apt install -y debootstrap podman wget
+        sudo apt install -y debootstrap podman wget git
 
     - name: Install simu
       run: |
-        wget https://github.com/Strawberry-Foundations/simu/raw/main/simu
-        chmod a+x ./simu
+        mkdir /workdir
+        wget https://github.com/Strawberry-Foundations/simu/raw/main/simu -O /workdir/simu
+        chmod a+x /workdir/simu
 
     - name: Build rootfs
       run: |
+        cd /workdir
+        sudo wget https://raw.githubusercontent.com/Strawberry-Foundations/os-images/main/base.yml
         sudo ./simu base.yml
+        cd /workdir
 
     - name: Build the Docker image
-      run: cd && docker image build -f Dockerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
+      run: cd && docker image build -f /workdir/Dockerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
 
     - name: Create SHA256SUMS
       run: |
@@ -48,4 +49,4 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: rootfs
-        path: rootfs.tar
+        path: cd /workdir/rootfs.tar
