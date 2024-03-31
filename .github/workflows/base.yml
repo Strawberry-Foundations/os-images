@@ -25,11 +25,11 @@ jobs:
     - name: Install simu
       run: |
         wget https://github.com/Strawberry-Foundations/simu/raw/main/simu
-        chmod a+x simu
+        chmod a+x ./simu
 
     - name: Build rootfs
       run: |
-        simu base.yml
+        ./simu base.yml
 
     - name: Build the Docker image
       run: docker image build -f Containerfile --tag ghcr.io/strawberry-foundations/os-base:latest .
